@@ -1,21 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
+import * as Font from 'expo-font';
+import { AppLoading } from 'expo';
+
+import HomeScreen from './views/Home';
+//Fetch font from ttf file.
+const fetchFonts = () => {
+  return Font.loadAsync({
+  Pacifico: require('./assets/fonts/Pacifico.ttf')
+  });
+};
+//Create a navigator of all the different views possible to access.
+const Stack = createStackNavigator();
+
+//Exports this function that includes the view that includes the stack of views.
 export default function App() {
+  const [dataLoaded, setDataLoaded] = useState(false);
+  
+  if (!dataLoaded) {
+    return (
+      <AppLoading
+        startAsync={fetchFonts}
+        onFinish={() => setDataLoaded(true)}
+      />
+    );
+  }
+
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Login" headerMode = 'none' >
+        <Stack.Screen name="Login" component={HomeScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
