@@ -6,41 +6,14 @@
 |  Description:  This is the file that holds the class of the home view.
 |                
 *===========================================================================*/
-import React, { Component } from 'react';
-import { Text, View } from 'react-native';
-import { LinearGradient } from 'expo-linear-gradient';
+import React from 'react';
+import { View, Button } from 'react-native';
+import Dices from './components/Dices';
 
-export default class HomeScreen extends Component {
-  constructor(props) {
-    super(props);
-  }
-  componentDidMount() {
-
-  };
-
+export default class Home extends React.Component {
   render() {
     return (
-      <View
-        style={{
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}>
-        <LinearGradient
-          colors={['rgba(235,51,73,1)', 'rgba(244,92,67,1)']}
-          start={{ x: 1, y: 0 }}
-          end={{ x: 0, y: 1 }}
-          style={{
-            position: 'absolute',
-            alignContent: 'center',
-            justifyContent: 'center',
-            left: 0,
-            right: 0,
-            top: 0,
-            height: '100%',
-        }}>
-      </LinearGradient>
-      </View>
+        <Dices/>
     );
   }
 }

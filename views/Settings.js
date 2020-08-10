@@ -24,12 +24,8 @@ const list = [
     icon: 'search'
   },
   {
-    name: 'Actions',
-    icon: 'search'
-  },
-  {
-    name: 'Locations',
-    icon: 'search'
+    name: 'Timer Duration',
+    icon: 'timer'
   }
 ];
 
