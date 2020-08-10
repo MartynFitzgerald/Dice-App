@@ -7,16 +7,17 @@
 |                
 *===========================================================================*/
 import React, { Component } from 'react';
-import { Text, View, TextInput, TouchableOpacity, Image, Keyboard, Alert } from 'react-native';
+import { Text, View } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 
-export default class LoginScreen extends Component {
+export default class HomeScreen extends Component {
   constructor(props) {
     super(props);
   }
   componentDidMount() {
 
   };
+
   render() {
     return (
       <View
@@ -38,15 +39,6 @@ export default class LoginScreen extends Component {
             top: 0,
             height: '100%',
         }}>
-        <Text
-          style={{
-            backgroundColor: 'transparent',
-            fontSize: 15,
-            color: '#fff',
-            textAlign: 'center',
-          }}>
-          Sign in with Facebook
-        </Text>
       </LinearGradient>
       </View>
     );
