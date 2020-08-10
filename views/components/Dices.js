@@ -20,6 +20,7 @@ export default class Dices extends React.Component {
       <GraphicsView
         onContextCreate={this.onContextCreate}
         onRender={this.onRender}
+        style={{alignItems: 'stretch', flex:1}}
       />
     );
   }
@@ -34,7 +35,7 @@ export default class Dices extends React.Component {
     this.renderer = new ExpoTHREE.Renderer({ gl, pixelRatio, width, height });
     this.renderer.setClearColor(0xffffff)
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(30, width / height, 0.1, 1000);
     this.camera.position.z = 4.5;
     const geometry = new THREE.BoxGeometry(1, 1, 1);
 
