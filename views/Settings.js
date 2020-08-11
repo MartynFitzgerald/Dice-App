@@ -33,7 +33,6 @@ const list = [
 export default class SettingScreen extends Component {
   constructor(props) {
     super(props);
-    
   }
   
   componentDidMount() {
