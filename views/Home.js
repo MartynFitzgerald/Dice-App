@@ -7,27 +7,49 @@
 |                
 *===========================================================================*/
 import React from 'react';
+import { View, StyleSheet, Animated } from 'react-native';
 import { View as GraphicsView } from 'expo-graphics';
 import ExpoTHREE, { THREE } from 'expo-three';
 import Constants from 'expo-constants';
-import { View, StyleSheet, Animated } from 'react-native';
 import { Button } from 'react-native-elements';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 
-const children = ({ remainingTime }) => {
+const children = ({ remainingTime, animatedColor }) => {
   const minutes = Math.floor((remainingTime % 3600) / 60)
   const seconds = remainingTime % 60
 
-  return `${minutes}:${seconds}`
+  if (remainingTime === 0) {
+    return (
+      <View style={{alignContent:"center", alignItems:"center"}}>
+        <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>{"Time is up!"}</Animated.Text>
+      </View>
+    )
+  } else if (remainingTime <= 59) {
+    return (
+      <View style={{alignContent:"center", alignItems:"center"}}>
+        <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>{"Remaining"}</Animated.Text>
+        <Animated.Text style={{ color: animatedColor, fontSize: 40 }}>{seconds}s</Animated.Text>
+        <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>{"Seconds"}</Animated.Text>
+      </View>
+    )
+  } else {
+    return (
+      <View style={{alignContent:"center", alignItems:"center"}}>
+        <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>{"Remaining"}</Animated.Text>
+        <Animated.Text style={{ color: animatedColor, fontSize: 40 }}>{minutes}m {seconds}s</Animated.Text>
+      </View>
+    )
+  }
 }
 
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
 
-    
     this.state = {
-      roll: false,
+      isDicesActive: false,
+      isTimerActive: false,
+      timer: 70,
     }
   }
 
@@ -64,33 +86,33 @@ export default class Home extends React.Component {
   };
 
   onRender = delta => {
-      this.renderer.render(this.scene, this.camera);
-  };
-
-  onRoll = async () => {
-    let timePassed = false;
-    console.log(timePassed);
-
-    setTimeout((timePassed) => {
-      timePassed = true;
-    }, 10 * 1000, timePassed);
-
-    console.log(timePassed);
+    const { isDicesActive } = this.state;
     
-    
-    while (!timePassed) {
-      this.firstCube.rotation.x += 5 * (Math.random() * 0.1);
-      this.firstCube.rotation.y += 3 * (Math.random() * 0.1);
-      this.secondCube.rotation.x -= 5 * (Math.random() * 0.1);
-      this.secondCube.rotation.y -= 3 * (Math.random() * 0.1);
-      break;
+    if(isDicesActive){
+      this.firstCube.rotation.x += 7 * delta;
+      this.firstCube.rotation.y += 4 * delta;
+      this.secondCube.rotation.x -= 7 * delta;
+      this.secondCube.rotation.y -= 4 * delta;
     }
+    this.renderer.render(this.scene, this.camera);
   };
 
-   
+  onRoll = () => {
+    //Role the dice.
+    this.setState({isDicesActive: true});
+    //Timer to stop the dice from rolling.
+    setTimeout(() => {
+      this.setState({isDicesActive: false});
+    }, 10 * 1000);
+  };
+
+  onCountdown = () => {
+    //Start the timer.
+    this.setState({isTimerActive: true});
+  };
 
   render() {
-
+    const { isTimerActive, timer } = this.state;
     return (
       <View style={{ flex: 1 }}>
         <GraphicsView
@@ -103,44 +125,37 @@ export default class Home extends React.Component {
             containerStyle={{ width: "50%", marginVertical: 20}}
             onPress={this.onRoll}
             title="Roll Dices!"
-            color="#841584"
-            accessibilityLabel="Learn more about this purple button"
           />
           <CountdownCircleTimer
-            isPlaying
-            duration={10}
-            children={children}
+            isPlaying={isTimerActive}
+            duration={timer}
+            remainingTime={timer}
             size={250}
+            strokeLinecap={"round"}
             colors={[
               ['#7BC763', 0.4],
               ['#C25408', 0.4],
               ['#C11D03', 0.2],
             ]}
+            children={children}
             onComplete={() => {
-              // do your stuff here
-              return [true, 1500] // repeat animation in 1.5 seconds
-          }}>
-            
-            {({ remainingTime, animatedColor }) => (
-              <View style={{alignContent:"center", alignItems:"center"}}>
-              <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>
-                {"Remaining"}
-              </Animated.Text>
-              <Animated.Text style={{ color: animatedColor, fontSize: 45   }}>
-                {remainingTime}
-              </Animated.Text>
-              <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>
-                {"Seconds"}
-              </Animated.Text>
-              </View>
-            )}
-          </CountdownCircleTimer>
-          <Button
-            containerStyle={{ width: "50%", marginVertical: 40 }}
-            title="Start Timer"
-            color="#841584"
-            accessibilityLabel="Learn more about this purple button"
-          />
+              this.setState({isTimerActive: false});
+              return [false] // repeat animation in 1.5 seconds
+          }}/>
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: "center", width: "100%", marginVertical: 40 }}>
+            <Button
+              containerStyle={{ width: "50%", padding: 1 }}
+              onPress={this.onCountdown}
+              title="Start Timer"
+            />
+            <Button
+              containerStyle={{ width: "50%", padding: 1 }}
+              buttonStyle={{ backgroundColor: '#841584' }}
+              backgroundColor={'red'}
+              onPress={this.onCountdown}
+              title="Reset Timer"
+            />
+          </View>
         </View>
       </View>
     );
