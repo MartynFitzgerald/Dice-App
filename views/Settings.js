@@ -1,8 +1,8 @@
 /*=============================================================================
-|      Editors:  Martyn Fitzgerald - 16025948
+|      Editors:  Martyn Fitzgerald
 |     Project :  Dice Application
 |
-|    File Name:  home.js  
+|    File Name:  Settings.js  
 |  Description:  This is the file that holds the class of the home view.
 |                
 *===========================================================================*/

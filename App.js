@@ -1,3 +1,11 @@
+/*=============================================================================
+|      Editors:  Martyn Fitzgerald
+|     Project :  Dice Application
+|
+|    File Name:  App.js  
+|  Description:  This is the initial file that holds the function of the app.s
+|                
+*===========================================================================*/
 import React, { useState } from 'react';
 import { TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
@@ -41,7 +49,7 @@ export default function App() {
             headerTitle: 'Dice Application', 
             headerRight: () => (
               <TouchableOpacity
-                style={{padding:15}}
+                style={{ padding:15 }}
                 onPress={() => navigation.navigate('Settings')}>
                 <Icon name='settings' />
             </TouchableOpacity>),
@@ -55,7 +63,7 @@ export default function App() {
               headerTitle: 'Settings', 
               headerLeft: () => (
                 <TouchableOpacity
-                  style={{padding:15}}
+                  style={{ padding:15 }}
                   onPress={() => navigation.goBack()}>
                   <Icon name='arrow-back' />
               </TouchableOpacity>),
