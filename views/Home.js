@@ -14,31 +14,34 @@ import Constants from 'expo-constants';
 import { Button } from 'react-native-elements';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 
-const children = ({ remainingTime, animatedColor }) => {
+//Import functions.
+import storage from '../models/Storage';
+
+const timerChildren = ({ remainingTime, animatedColor }) => {
   const minutes = Math.floor((remainingTime % 3600) / 60)
   const seconds = remainingTime % 60
 
   if (remainingTime === 0) {
-    return (
+      return (
       <View style={{alignContent:"center", alignItems:"center"}}>
-        <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>{"Time is up!"}</Animated.Text>
+          <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>{"Time is up!"}</Animated.Text>
       </View>
-    )
+      )
   } else if (remainingTime <= 59) {
-    return (
+      return (
       <View style={{alignContent:"center", alignItems:"center"}}>
-        <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>{"Remaining"}</Animated.Text>
-        <Animated.Text style={{ color: animatedColor, fontSize: 40 }}>{seconds}s</Animated.Text>
-        <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>{"Seconds"}</Animated.Text>
+          <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>{"Remaining"}</Animated.Text>
+          <Animated.Text style={{ color: animatedColor, fontSize: 40 }}>{seconds}s</Animated.Text>
+          <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>{"Seconds"}</Animated.Text>
       </View>
-    )
+      )
   } else {
-    return (
+      return (
       <View style={{alignContent:"center", alignItems:"center"}}>
-        <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>{"Remaining"}</Animated.Text>
-        <Animated.Text style={{ color: animatedColor, fontSize: 40 }}>{minutes}m {seconds}s</Animated.Text>
+          <Animated.Text style={{ color:"#A2A2A4", fontSize: 30 }}>{"Remaining"}</Animated.Text>
+          <Animated.Text style={{ color: animatedColor, fontSize: 40 }}>{minutes}m {seconds}s</Animated.Text>
       </View>
-    )
+      )
   }
 }
 
@@ -47,14 +50,27 @@ export default class Home extends React.Component {
     super(props);
 
     this.state = {
+      user: {
+        darkmode: 0,
+        timer: 30,
+        diceArray: ['avatar1.png'],
+      },
       isDicesActive: false,
       isTimerActive: false,
-      timer: 70,
     }
   }
 
   componentDidMount() {
     THREE.suppressExpoWarnings();
+
+    storage.get(`user`)
+    .then((user) => {
+      if (user == undefined || user == null) {
+        storage.set(`user`, this.state.user);
+      } else {
+        this.setState({user: user});
+      }
+    });
   };
 
   onContextCreate = async ({ gl, canvas, width, height, scale: pixelRatio, }) => {
@@ -112,7 +128,8 @@ export default class Home extends React.Component {
   };
 
   render() {
-    const { isTimerActive, timer } = this.state;
+    const { user, isTimerActive, timer } = this.state;
+    console.log(user);
     return (
       <View style={{ flex: 1 }}>
         <GraphicsView
@@ -128,8 +145,8 @@ export default class Home extends React.Component {
           />
           <CountdownCircleTimer
             isPlaying={isTimerActive}
-            duration={timer}
-            remainingTime={timer}
+            duration={user.timer || 90}
+            remainingTime={user.timer || 90}
             size={250}
             strokeLinecap={"round"}
             colors={[
@@ -137,10 +154,10 @@ export default class Home extends React.Component {
               ['#C25408', 0.4],
               ['#C11D03', 0.2],
             ]}
-            children={children}
+            children={timerChildren}
             onComplete={() => {
               this.setState({isTimerActive: false});
-              return [false] // repeat animation in 1.5 seconds
+              return [false, timer] // repeat animation in 1.5 seconds
           }}/>
           <View style={{ flex: 1, flexDirection: 'row', alignItems: "center", width: "100%", marginVertical: 40 }}>
             <Button
