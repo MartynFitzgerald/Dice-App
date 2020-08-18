@@ -2,15 +2,15 @@
 |      Editors:  Martyn Fitzgerald
 |     Project :  Dice Application
 |
-|    File Name:  Instructions.js  
-|  Description:  This is the file that holds the class of the instructions 
+|    File Name:  TimerDuration.js  
+|  Description:  This is the file that holds the class of the TimerDuration 
 |                component.
 |                
 *===========================================================================*/
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 
-export default class Instructions extends Component {
+export default class TimerDuration extends Component {
   constructor(props) {
     super(props);
   }
@@ -24,7 +24,7 @@ export default class Instructions extends Component {
     return (
       <View>
         <Text>{item.name} Component</Text>
-        <Text>How to use the application</Text>
+        <Text>Modify timer duration</Text>
       </View>
     );
   };

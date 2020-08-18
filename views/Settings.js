@@ -7,12 +7,12 @@
 |                
 *===========================================================================*/
 import React, { Component } from 'react';
-import { StyleSheet, View, FlatList } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements'
 import Overlay from 'react-native-modal-overlay';
 
 //Import components.
-import Modal from './Components/Instructions';
+import EditSettings from './Components/EditSettings';
 
 export default class SettingScreen extends Component {
   constructor(props) {
@@ -81,16 +81,10 @@ export default class SettingScreen extends Component {
           data={list}
           renderItem={this.renderItem}
         />
-        <Overlay visible={isModalVisible} onClose={this.toggleModal} animationDuration={20} containerStyle={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}} childrenWrapperStyle={[styles.white]} closeOnTouchOutside>
-          <Modal item={item} toggleModal={this.toggleModal}/>
+        <Overlay visible={isModalVisible} onClose={this.toggleModal} animationDuration={20} containerStyle={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}} childrenWrapperStyle={{backgroundColor: '#fff'}} closeOnTouchOutside>
+          <EditSettings item={item} toggleModal={this.toggleModal}/>
         </Overlay>
       </View>
     );
   }
 }
-
-const styles = StyleSheet.create({
-  white: {
-    backgroundColor: `#fff`,
-  }
-});
