@@ -68,7 +68,5 @@ export default class EditSettings extends Component {
 const styles = StyleSheet.create({
   viewOverall: {
       backgroundColor: `#fff`,
-      minHeight: '50%',
-      maxHeight: 700,
   }
 });

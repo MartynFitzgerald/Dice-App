@@ -8,8 +8,7 @@
 *===========================================================================*/
 import React, { Component } from 'react';
 import { View, FlatList } from 'react-native';
-import { ListItem } from 'react-native-elements'
-import Overlay from 'react-native-modal-overlay';
+import { ListItem, Overlay } from 'react-native-elements'
 
 //Import components.
 import EditSettings from './Components/EditSettings';
@@ -81,7 +80,7 @@ export default class SettingScreen extends Component {
           data={list}
           renderItem={this.renderItem}
         />
-        <Overlay visible={isModalVisible} onClose={this.toggleModal} animationDuration={20} containerStyle={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}} childrenWrapperStyle={{backgroundColor: '#fff'}} closeOnTouchOutside>
+        <Overlay isVisible={isModalVisible} onBackdropPress={this.toggleModal} animationDuration={20} containerStyle={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}} childrenWrapperStyle={{backgroundColor: '#fff'}}>
           <EditSettings item={item} toggleModal={this.toggleModal}/>
         </Overlay>
       </View>

@@ -23,7 +23,7 @@ export default class Instructions extends Component {
     const { item, toggleModal } = this.props;
     return (
       <View>
-        <Text>{item.name} Component</Text>
+        <Text>{item.name}</Text>
         <Text>How to use the application</Text>
       </View>
     );
