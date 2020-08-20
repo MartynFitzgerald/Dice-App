@@ -2,8 +2,8 @@
 |      Editors:  Martyn Fitzgerald
 |     Project :  Dice Application
 |
-|    File Name:  Actions.js  
-|  Description:  This is the file that holds the class of the Actions 
+|    File Name:  Help.js  
+|  Description:  This is the file that holds the class of the help 
 |                component.
 |                
 *===========================================================================*/

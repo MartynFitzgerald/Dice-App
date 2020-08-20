@@ -8,9 +8,10 @@
 |                
 *===========================================================================*/
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View, Switch } from 'react-native';
+import { Button, Text } from 'react-native-elements'
 
-export default class Darkmode extends Component {
+export default class Help extends Component {
   constructor(props) {
     super(props);
   }
@@ -23,8 +24,14 @@ export default class Darkmode extends Component {
     const { item, toggleModal } = this.props;
     return (
       <View>
-        <Text>{item.name} Component</Text>
-        <Text>Change the schema</Text>
+        <View style={{ flexDirection: 'row' }}>
+          <Text h4>{ item.name }</Text>
+          <View style={{ flex:1, flexDirection: 'row', justifyContent:'flex-end' }}>
+            <Switch value={1}/>
+          </View>
+        </View>
+        <Text>Change this option to modify the color scheme for the application. The two options is light mode or dark mode. </Text>
+        <Button containerStyle={{ paddingVertical:10 }} title="Back" onPress={ toggleModal }/>
       </View>
     );
   };

@@ -11,11 +11,12 @@ import React, { Component } from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 
 //Import components.
-import Instructions from './Instructions';
 import Darkmode from './Darkmode';
 import Actions from './Actions';
 import Locations from './Locations';
 import TimerDuration from './TimerDuration';
+import About from './About';
+import Help from './Help';
 
 export default class EditSettings extends Component {
   constructor(props) {
@@ -30,35 +31,40 @@ export default class EditSettings extends Component {
     const { item, toggleModal } = this.props;
     if ( item != undefined ) {
       switch( item.name ) {
-        case 'Instructions': return (
-          <View style={ styles.viewOverall }>
-              <Instructions item={ item } toggleModal={ toggleModal }/>
-          </View>
-          );
         case 'Darkmode': return (
-          <View style={styles.viewOverall}>
+          <View style={styles.container}>
             <Darkmode item={ item } toggleModal={ toggleModal }/>
           </View>
         );
         case 'Actions': return (
-          <View style={styles.viewOverall}>
+          <View>
             <Actions item={ item } toggleModal={ toggleModal }/>
           </View>
         );
         case 'Locations': return (
-          <View style={styles.viewOverall}>
+          <View>
             <Locations item={ item } toggleModal={ toggleModal }/>
           </View>
         );
         case 'Timer Duration': return (
-          <View style={styles.viewOverall}>
+          <View>
             <TimerDuration item={ item } toggleModal={ toggleModal }/>
+          </View>
+        );
+        case 'About': return (
+          <View>
+              <About item={ item } toggleModal={ toggleModal }/>
+          </View>
+        );
+        case 'Help': return (
+          <View>
+              <Help item={ item } toggleModal={ toggleModal }/>
           </View>
         );
       }
     }
     return (
-      <View style={styles.viewOverall}>
+      <View>
           <Text>Error has occurred!</Text>
       </View>
     );
@@ -66,7 +72,11 @@ export default class EditSettings extends Component {
 };
 
 const styles = StyleSheet.create({
-  viewOverall: {
-      backgroundColor: `#fff`,
-  }
+  container: {
+    maxWidth:"95%",
+    padding: 8,
+  },
+  remainingTime: {
+    fontSize: 46,
+  },
 });

@@ -8,9 +8,10 @@
 |                
 *===========================================================================*/
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { View } from 'react-native';
+import { Divider, Button, Text } from 'react-native-elements'
 
-export default class TimerDuration extends Component {
+export default class Help extends Component {
   constructor(props) {
     super(props);
   }
@@ -23,8 +24,13 @@ export default class TimerDuration extends Component {
     const { item, toggleModal } = this.props;
     return (
       <View>
-        <Text>{item.name} Component</Text>
-        <Text>Modify timer duration</Text>
+        <Text h4>{item.name}</Text>
+        <Divider style={{ backgroundColor: 'grey' }} />
+        <Text>How to use the application</Text>
+        <Button
+          title="Back"
+          onPress={toggleModal}
+        />
       </View>
     );
   };

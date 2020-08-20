@@ -7,7 +7,7 @@
 |                
 *===========================================================================*/
 import React, { Component } from 'react';
-import { View, FlatList } from 'react-native';
+import { View, FlatList, Text } from 'react-native';
 import { ListItem, Overlay } from 'react-native-elements'
 
 //Import components.
@@ -22,30 +22,35 @@ export default class SettingScreen extends Component {
       item: [],
       list: [
         {
-          name: 'Instructions',
-          icon: 'info',
-          onPress: () => {this.toggleModal(this.state.list[0]);}
-        },
-        {
           name: 'Darkmode',
           icon: 'brightness-6',
-          onPress: () => {this.toggleModal(this.state.list[1]);}
+          onPress: () => {this.toggleModal(this.state.list[0]);}
         },
         {
           name: 'Actions',
           icon: 'forward',
-          onPress: () => {this.toggleModal(this.state.list[2]);}
+          onPress: () => {this.toggleModal(this.state.list[1]);}
         },
         {
           name: 'Locations',
           icon: 'search',
-          onPress: () => {this.toggleModal(this.state.list[3]);}
+          onPress: () => {this.toggleModal(this.state.list[2]);}
         },
         {
           name: 'Timer Duration',
           icon: 'timer',
+          onPress: () => {this.toggleModal(this.state.list[3]);}
+        },
+        {
+          name: 'About',
+          icon: 'info',
           onPress: () => {this.toggleModal(this.state.list[4]);}
-        }
+        },
+        {
+          name: 'Help',
+          icon: 'help',
+          onPress: () => {this.toggleModal(this.state.list[5]);}
+        },
       ]
     }
   }
