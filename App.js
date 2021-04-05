@@ -13,7 +13,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Icon } from 'react-native-elements'
 
 import * as Font from 'expo-font';
-import { AppLoading } from 'expo';
+import AppLoading from 'expo-app-loading'
 
 import HomeScreen from './views/Home';
 import SettingsScreen from './views/Settings';
@@ -36,6 +36,7 @@ export default function App() {
       <AppLoading
         startAsync={fetchFonts}
         onFinish={() => setDataLoaded(true)}
+        onError={console.warn}
       />
     );
   }
