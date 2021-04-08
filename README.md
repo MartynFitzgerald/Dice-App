@@ -7,7 +7,7 @@ The design of this application is to allow users to create their actions on two 
 
 ## Software Used    
 
-* Node.js (12.16.3)
+* Node.js (14.16.0)
 * Visual Studio Code
 * Expo CLI (Command Line Utility)
 
@@ -15,7 +15,7 @@ The design of this application is to allow users to create their actions on two 
 
 1. If testing Android device, connect to the computer through a USB cable.
 2. Install Git (https://gitforwindows.org/).
-3. Install Node.js 12+ LTS (https://nodejs.org/en/download/).
+3. Install Node.js 14+ LTS (https://nodejs.org/en/download/).
 4. Open Command Prompt.
 5. Install Expo CLI.
 ```bash
@@ -38,7 +38,7 @@ npm install
 ```
 4. Start the Expo CLI.
 ```bash
-npm start -c
+expo start -c
 ```
 5. If, Expo CLI does not open automatically, open an internet browser and search 'localhost:19002'.
 6. Once on the Expo CLI wait for console to output 'Tunnel ready'.
