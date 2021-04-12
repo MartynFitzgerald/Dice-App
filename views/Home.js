@@ -8,8 +8,6 @@
 *===========================================================================*/
 import React from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
-import { View as GraphicsView } from 'expo-graphics';
-import ExpoTHREE, { THREE } from 'expo-three';
 import Constants from 'expo-constants';
 import { Button } from 'react-native-elements';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
@@ -53,16 +51,12 @@ export default class Home extends React.Component {
       user: {
         darkmode: 0,
         timer: 30,
-        diceArray: ['avatar1.png'],
       },
-      isDicesActive: false,
       isTimerActive: false,
     }
   }
 
   componentDidMount() {
-    THREE.suppressExpoWarnings();
-
     storage.get(`user`)
     .then((user) => {
       if (user == undefined || user == null) {
@@ -73,55 +67,6 @@ export default class Home extends React.Component {
     });
   };
 
-  onContextCreate = async ({ gl, canvas, width, height, scale: pixelRatio, }) => {
-    this.renderer = new ExpoTHREE.Renderer({ gl, pixelRatio, width, height });
-    this.renderer.setClearColor(0xffffff)
-    this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(30, width / height, 0.1, 1000);
-    this.camera.position.z = 4.5;
-    const geometry = new THREE.BoxGeometry(1, 1, 1);
-
-    const material = new THREE.MeshPhongMaterial({
-      color: 0xff0000,
-    });
-    
-    this.firstCube = new THREE.Mesh(geometry, material);
-    this.secondCube = new THREE.Mesh(geometry, material);
-    
-    this.scene.add(this.firstCube);
-    this.scene.add(this.secondCube);
-
-    this.firstCube.position.x -= .8;
-    this.secondCube.position.x += .8;
-
-    this.scene.add(new THREE.AmbientLight(0x404040));
-
-    const light = new THREE.DirectionalLight(0xffffff, 0.6);
-    light.position.set(0, 0, 2);
-    this.scene.add(light);
-  };
-
-  onRender = delta => {
-    const { isDicesActive } = this.state;
-    
-    if(isDicesActive){
-      this.firstCube.rotation.x += 7 * delta;
-      this.firstCube.rotation.y += 4 * delta;
-      this.secondCube.rotation.x -= 7 * delta;
-      this.secondCube.rotation.y -= 4 * delta;
-    }
-    this.renderer.render(this.scene, this.camera);
-  };
-
-  onRoll = () => {
-    //Role the dice.
-    this.setState({isDicesActive: true});
-    //Timer to stop the dice from rolling.
-    setTimeout(() => {
-      this.setState({isDicesActive: false});
-    }, 10 * 1000);
-  };
-
   onCountdown = () => {
     //Start the timer.
     this.setState({isTimerActive: true});
@@ -129,14 +74,8 @@ export default class Home extends React.Component {
 
   render() {
     const { user, isTimerActive, timer } = this.state;
-    console.log(user);
     return (
       <View style={{ flex: 1 }}>
-        <GraphicsView
-          onContextCreate={this.onContextCreate}
-          onRender={this.onRender}
-          style={{alignItems: 'stretch', flex:1}}
-        />
         <View style={{ flex: 2, alignItems: "center", backgroundColor: "#fff" }}>
           <Button
             containerStyle={{ width: "50%", marginVertical: 20}}

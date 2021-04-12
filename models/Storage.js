@@ -7,7 +7,7 @@
 |                data stored onto the users device.
 |                
 *===========================================================================*/
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 /* 
   A function that stores information using the id and data inputs.
 */
