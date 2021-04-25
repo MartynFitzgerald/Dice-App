@@ -7,8 +7,8 @@
 |                
 *===========================================================================*/
 import React, { Component } from 'react';
-import { View, FlatList, Text } from 'react-native';
-import { ListItem, Overlay } from 'react-native-elements'
+import { View, FlatList } from 'react-native';
+import { ListItem, Overlay, Icon } from 'react-native-elements'
 
 //Import components.
 import EditSettings from './Components/EditSettings';
@@ -66,15 +66,15 @@ export default class SettingScreen extends Component {
 
   keyExtractor = (item, index) => index.toString()
 
-  renderItem = ({ item }) => (
-    <ListItem
-      title={item.name}
-      leftIcon={{ name: item.icon }}
-      onPress={item.onPress}
-      bottomDivider
-      chevron
-    />
-  )
+  renderItem = ({ item }) => (    
+    <ListItem bottomDivider onPress={item.onPress} >
+      <Icon name={item.icon} />
+      <ListItem.Content>
+        <ListItem.Title>{item.name}</ListItem.Title>
+      </ListItem.Content>
+      <ListItem.Chevron />
+    </ListItem>
+  ) 
 
   render() {
     const { isModalVisible, list, item } = this.state;

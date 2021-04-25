@@ -129,7 +129,6 @@ export default class Home extends React.Component {
 
   render() {
     const { user, isTimerActive, timer } = this.state;
-    console.log(user);
     return (
       <View style={{ flex: 1 }}>
         <GraphicsView
