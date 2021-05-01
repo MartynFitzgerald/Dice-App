@@ -13,7 +13,7 @@
     "@react-native-community/masked-view": "0.1.10",
     "@react-navigation/native": "^5.9.4",
     "@react-navigation/stack": "^5.14.4",
-    "expo": "~40.0.1",
+    "expo": "~41.0.1",
     "expo-app-loading": "^1.0.1",
     "expo-cli": "^4.3.5",
     "expo-gl": "~9.2.0",
