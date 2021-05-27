@@ -16,7 +16,7 @@
     "expo": "~40.0.1",
     "expo-app-loading": "^1.0.1",
     "expo-cli": "^4.3.5",
-    "expo-gl": "~9.2.0",
+    "expo-gl": "~10.3.0",
     "expo-linear-gradient": "~8.4.0",
     "expo-status-bar": "~1.0.3",
     "react": "16.13.1",
