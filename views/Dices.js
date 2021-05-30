@@ -13,6 +13,45 @@ import ExpoTHREE, { THREE } from 'expo-three';
 import { Button } from 'react-native-elements';
 
 import dicesPositions from '../data/dicesPositions';
+import fontJSON from '../assets/fonts/gentilis_bold.typeface';
+
+
+function addLabel( text, location, group, rotY = null, rotX = null, rotZ = null ) {
+
+  let loader = new THREE.FontLoader();
+  let font = loader.parse(fontJSON);
+  let fontSize = 20;
+  const baseSize = 9
+  if (text.length >= baseSize) {
+    fontSize = baseSize - 2
+  }
+
+  //let fontSize = 0.3 - ((text.length / 10) - 1);
+
+  const geometry  = new THREE.TextGeometry( text, {
+    font: font,
+		size: 1 / text.length, //fontSize > 0.3  ? fontSize : 0.2,
+		height: 0.1,
+  });
+
+  //Center text regardless the length
+  geometry.center();
+  let material = new THREE.MeshBasicMaterial( { color: 0xA7F432 } );
+  let mesh = new THREE.Mesh( geometry, material );
+  mesh.position.copy( location );
+
+  if (rotY){
+    mesh.rotateY(rotY);
+  }
+  if (rotX){
+    mesh.rotateX(rotX);
+  }
+  if (rotZ){
+    mesh.rotateZ(rotZ);
+  }
+  
+  group.add( mesh );
+}
 
 export default class Dices extends React.Component {
   constructor(props) {
@@ -43,7 +82,7 @@ export default class Dices extends React.Component {
     this.scene = new THREE.Scene();
 
     this.camera = new THREE.PerspectiveCamera(30, width / height, 0.1, 1000);
-    this.camera.position.z = 4.5 + (chosenDicesPositions[0].camera / 1.5);
+    this.camera.position.z = 4.5 + (chosenDicesPositions[0].camera / 1.5); //4.5
 
     this.createShapes();
     this.createLighting();
@@ -53,17 +92,28 @@ export default class Dices extends React.Component {
     const { objects, amountOfDices, chosenDicesPositions } = this.state;
 
     const geometry = new THREE.BoxGeometry(1, 1, 1);
-    const material = new THREE.MeshPhongMaterial({
+    const material = new THREE.MeshPhysicalMaterial({
       color: 0xff0000,
     });
     
     for(let i = 0; i < amountOfDices; i++) { //Get amount of dices here
-        objects.push(new THREE.Mesh(geometry, material));
+      var group = new THREE.Object3D();//create an empty container
+      group.add( new THREE.Mesh(geometry, material) );//add a mesh with geometry to it
+      objects.push(group);
         
-        objects[i].position.x -= chosenDicesPositions[0].positions[i].x;
-        objects[i].position.y -= chosenDicesPositions[0].positions[i].y;
+      objects[i].position.x += chosenDicesPositions[0].positions[i].x;
+      objects[i].position.y += chosenDicesPositions[0].positions[i].y;
+      
+      addLabel("1", new THREE.Vector3(objects[i].position.x + 0, objects[i].position.y, objects[i].position.z + 0.455), group); // Front
+      addLabel("2", new THREE.Vector3(objects[i].position.x + 0.455, objects[i].position.y, objects[i].position.z), group, THREE.Math.degToRad( 90 )); // right
+      addLabel("3", new THREE.Vector3(objects[i].position.x, objects[i].position.y + 0.455, objects[i].position.z), group, null, THREE.Math.degToRad( 270 )); // top
+      addLabel("4", new THREE.Vector3(objects[i].position.x + -0.455, objects[i].position.y, objects[i].position.z), group, THREE.Math.degToRad( 270 )); // left
+      addLabel("5", new THREE.Vector3(objects[i].position.x, objects[i].position.y + -0.455, objects[i].position.z), group, null, THREE.Math.degToRad( 90 )); // bottom
+      addLabel("6", new THREE.Vector3(objects[i].position.x, objects[i].position.y, objects[i].position.z + -0.455), group, THREE.Math.degToRad( 180 )); // Back
 
-        this.scene.add(objects[i]);
+      //objects[i].rotateX(THREE.Math.degToRad( 270 ));
+
+      this.scene.add(objects[i]);
     }
   };
 
@@ -101,9 +151,9 @@ export default class Dices extends React.Component {
       this.setState({isDicesActive: false});
 
       //After roll function, make objects look at camera.
-      for(let i = 0; i < amountOfDices; i++) {
-        objects[i].lookAt(this.camera.position);
-      }
+      //for(let i = 0; i < amountOfDices; i++) {
+      //  objects[i].lookAt(this.camera.position); // does not work 
+      //}
     }, 10 * 1000);
   };
 
