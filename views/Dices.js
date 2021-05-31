@@ -17,16 +17,8 @@ import fontJSON from '../assets/fonts/gentilis_bold.typeface';
 
 
 function addLabel( text, location, group, rotY = null, rotX = null, rotZ = null ) {
-
   let loader = new THREE.FontLoader();
   let font = loader.parse(fontJSON);
-  let fontSize = 20;
-  const baseSize = 9
-  if (text.length >= baseSize) {
-    fontSize = baseSize - 2
-  }
-
-  //let fontSize = 0.3 - ((text.length / 10) - 1);
 
   const geometry  = new THREE.TextGeometry( text, {
     font: font,
@@ -146,14 +138,25 @@ export default class Dices extends React.Component {
     const { amountOfDices, objects } = this.state;
     //Role the dice.
     this.setState({isDicesActive: true});
+    
     //Timer to stop the dice from rolling.
     setTimeout(() => {
       this.setState({isDicesActive: false});
 
       //After roll function, make objects look at camera.
-      //for(let i = 0; i < amountOfDices; i++) {
-      //  objects[i].lookAt(this.camera.position); // does not work 
-      //}
+      for(let i = 0; i < amountOfDices; i++) {
+        let radToRound = THREE.Math.degToRad( 90 );
+
+        let lookAtCamX = Math.round(objects[0].rotation.x / radToRound) * radToRound;
+        let lookAtCamY = Math.round(objects[0].rotation.x / radToRound) * radToRound;
+
+        if (lookAtCamX < 0) {
+          //lookAtCamX = Math.abs(lookAtCamX, (lookAtCamX * 2)); Not working
+        }
+
+        objects[i].rotation.x = lookAtCamX;
+        objects[i].rotation.y = lookAtCamY;
+      }
     }, 10 * 1000);
   };
 
