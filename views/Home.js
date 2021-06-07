@@ -8,8 +8,6 @@
 *===========================================================================*/
 import React from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
-import { View as GraphicsView } from 'expo-graphics';
-import ExpoTHREE, { THREE } from 'expo-three';
 import Constants from 'expo-constants';
 import { Button } from 'react-native-elements';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
@@ -56,15 +54,12 @@ export default class Home extends React.Component {
       user: {
         darkmode: 0,
         timer: 30,
-        diceArray: ['avatar1.png'],
       },
       isTimerActive: false
     }
   };
 
   componentDidMount() {
-    THREE.suppressExpoWarnings();
-
     storage.get(`user`)
     .then((user) => {
       if (user == undefined || user == null) {
