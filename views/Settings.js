@@ -7,7 +7,7 @@
 |                
 *===========================================================================*/
 import React, { Component } from 'react';
-import { View, FlatList, Text } from 'react-native';
+import { View, FlatList } from 'react-native';
 import { ListItem, Overlay, Icon } from 'react-native-elements'
 
 //Import components.
@@ -66,9 +66,9 @@ export default class SettingScreen extends Component {
 
   keyExtractor = (item, index) => index.toString()
 
-  renderItem = ({ item }) => (
+  renderItem = ({ item }) => (    
     <ListItem bottomDivider onPress={item.onPress} >
-    <Icon name={item.icon} />
+      <Icon name={item.icon} />
       <ListItem.Content>
         <ListItem.Title>{item.name}</ListItem.Title>
       </ListItem.Content>

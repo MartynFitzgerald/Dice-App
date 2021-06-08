@@ -12,6 +12,9 @@ import Constants from 'expo-constants';
 import { Button } from 'react-native-elements';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 
+//Import Classes.
+import Dices from './Dices';
+
 //Import functions.
 import storage from '../models/Storage';
 
@@ -52,9 +55,9 @@ export default class Home extends React.Component {
         darkmode: 0,
         timer: 30,
       },
-      isTimerActive: false,
+      isTimerActive: false
     }
-  }
+  };
 
   componentDidMount() {
     storage.get(`user`)
@@ -76,12 +79,8 @@ export default class Home extends React.Component {
     const { user, isTimerActive, timer } = this.state;
     return (
       <View style={{ flex: 1 }}>
-        <View style={{ flex: 2, alignItems: "center", backgroundColor: "#fff" }}>
-          <Button
-            containerStyle={{ width: "50%", marginVertical: 20}}
-            onPress={this.onRoll}
-            title="Roll Dices!"
-          />
+        <Dices/>
+        <View style={{ flex: 1, alignItems: "center", backgroundColor: "#fff" }}>
           <CountdownCircleTimer
             isPlaying={isTimerActive}
             duration={user.timer || 90}
@@ -115,7 +114,7 @@ export default class Home extends React.Component {
         </View>
       </View>
     );
-  }
+  };
 }
 
 const styles = StyleSheet.create({
