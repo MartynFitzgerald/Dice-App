@@ -9,7 +9,7 @@
 *===========================================================================*/
 import React, { Component } from 'react';
 import { View } from 'react-native';
-import { Divider, Button, Text } from 'react-native-elements'
+import { Divider, Text, Button } from 'react-native-paper';
 
 export default class Help extends Component {
   constructor(props) {
@@ -24,13 +24,16 @@ export default class Help extends Component {
     const { item, toggleModal } = this.props;
     return (
       <View>
-        <Text h4>{item.name}</Text>
-        <Divider style={{ backgroundColor: 'grey' }} />
+        <Text style={{fontSize: 24}}>{item.name}</Text>
+        <Divider style={{ marginVertical: 10 }}/>
         <Text>How to use the application</Text>
         <Button
-          title="Back"
-          onPress={toggleModal}
-        />
+            style={{ width: "100%", marginVertical: 20, padding: 1 }}
+            onPress={toggleModal}
+            mode="contained"
+          >
+            Close
+        </Button>
       </View>
     );
   };
