@@ -9,7 +9,7 @@
 import React from 'react';
 import { View, StyleSheet, Animated } from 'react-native';
 import Constants from 'expo-constants';
-import { Button } from 'react-native-elements';
+import { Button } from 'react-native-paper';
 import { CountdownCircleTimer } from 'react-native-countdown-circle-timer'
 
 //Import Classes.
@@ -99,17 +99,19 @@ export default class Home extends React.Component {
           }}/>
           <View style={{ flex: 1, flexDirection: 'row', alignItems: "center", width: "100%", marginVertical: 40 }}>
             <Button
-              containerStyle={{ width: "50%", padding: 1 }}
+              style={{ width: "50%", padding: 1 }}
               onPress={this.onCountdown}
-              title="Start Timer"
-            />
+              mode="contained"
+            >
+              Start Timer
+            </Button>
             <Button
-              containerStyle={{ width: "50%", padding: 1 }}
-              buttonStyle={{ backgroundColor: '#841584' }}
-              backgroundColor={'red'}
+              style={{ width: "50%", padding: 1, backgroundColor: '#841584' }}
               onPress={this.onCountdown}
-              title="Reset Timer"
-            />
+              mode="contained"
+            >
+              Reset Timer
+            </Button>
           </View>
         </View>
       </View>

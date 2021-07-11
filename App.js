@@ -7,15 +7,14 @@
 |                
 *===========================================================================*/
 import React, { useState } from 'react';
-import { TouchableOpacity } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { Icon } from 'react-native-elements'
+import { IconButton } from 'react-native-paper'
 
 import * as Font from 'expo-font';
 import AppLoading from 'expo-app-loading'
 
-import HomeScreen from './views/Home';
+import HomeScreen from './views/Home';  
 import SettingsScreen from './views/Settings';
 
 //Fetch font from ttf file.
@@ -30,7 +29,7 @@ const Stack = createStackNavigator();
 //Exports this function that includes the view that includes the stack of views.
 export default function App() {
   const [dataLoaded, setDataLoaded] = useState(false);
-
+  
   if (!dataLoaded) {
     return (
       <AppLoading
@@ -48,12 +47,7 @@ export default function App() {
           component={HomeScreen} 
           options={({route, navigation}) => ({
             headerTitle: 'Dice Application', 
-            headerRight: () => (
-              <TouchableOpacity
-                style={{ padding:15 }}
-                onPress={() => navigation.navigate('Settings')}>
-                <Icon name='settings' />
-            </TouchableOpacity>),
+            headerRight: () => (<IconButton icon="cog" size={24} onPress={() => navigation.navigate('Settings')} />),
             route: {route}, 
             navigation: {navigation}}
           )}/>
@@ -62,12 +56,7 @@ export default function App() {
             component={SettingsScreen} 
             options={({route, navigation}) => ({
               headerTitle: 'Settings', 
-              headerLeft: () => (
-                <TouchableOpacity
-                  style={{ padding:15 }}
-                  onPress={() => navigation.goBack()}>
-                  <Icon name='arrow-back' />
-              </TouchableOpacity>),
+              headerLeft: () => (<IconButton icon="arrow-left" size={24} onPress={() => navigation.goBack()} />),
               route: {route}, 
               navigation: {navigation}}
             )}/>

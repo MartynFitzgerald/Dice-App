@@ -8,7 +8,7 @@
 *===========================================================================*/
 import React, { Component } from 'react';
 import { View, FlatList } from 'react-native';
-import { ListItem, Overlay, Icon } from 'react-native-elements'
+import { List, Divider, Portal, Modal, Provider } from 'react-native-paper'
 
 //Import components.
 import EditSettings from './Components/EditSettings';
@@ -33,7 +33,7 @@ export default class SettingScreen extends Component {
         },
         {
           name: 'Locations',
-          icon: 'search',
+          icon: 'magnify',
           onPress: () => {this.toggleModal(this.state.list[2]);}
         },
         {
@@ -43,7 +43,7 @@ export default class SettingScreen extends Component {
         },
         {
           name: 'About',
-          icon: 'info',
+          icon: 'information',
           onPress: () => {this.toggleModal(this.state.list[4]);}
         },
         {
@@ -67,28 +67,32 @@ export default class SettingScreen extends Component {
   keyExtractor = (item, index) => index.toString()
 
   renderItem = ({ item }) => (    
-    <ListItem bottomDivider onPress={item.onPress} >
-      <Icon name={item.icon} />
-      <ListItem.Content>
-        <ListItem.Title>{item.name}</ListItem.Title>
-      </ListItem.Content>
-      <ListItem.Chevron />
-    </ListItem>
+    <View>
+      <List.Item  
+        onPress={item.onPress}
+        title={item.name}
+        left={props => <List.Icon {...props} icon={item.icon} />}
+        right={props => <List.Icon {...props} icon="chevron-right" />}
+      />
+      <Divider />
+    </View>
   ) 
 
   render() {
     const { isModalVisible, list, item } = this.state;
     return (
-      <View>
+      <Provider>
         <FlatList
           keyExtractor={this.keyExtractor}
           data={list}
           renderItem={this.renderItem}
         />
-        <Overlay isVisible={isModalVisible} onBackdropPress={this.toggleModal} animationDuration={20} containerStyle={{backgroundColor: 'rgba(0, 0, 0, 0.75)'}} childrenWrapperStyle={{backgroundColor: '#fff'}}>
-          <EditSettings item={item} toggleModal={this.toggleModal}/>
-        </Overlay>
-      </View>
+        <Portal>
+          <Modal visible={isModalVisible} onDismiss={this.toggleModal} contentContainerStyle={ {backgroundColor: 'white', padding: 20, margin:10 }}>
+            <EditSettings item={item} toggleModal={this.toggleModal}/>
+          </Modal>
+        </Portal>
+      </Provider>
     );
   }
 }

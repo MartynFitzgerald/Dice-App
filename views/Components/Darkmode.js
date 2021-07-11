@@ -9,7 +9,7 @@
 *===========================================================================*/
 import React, { Component } from 'react';
 import { View, Switch } from 'react-native';
-import { Button, Text } from 'react-native-elements'
+import { Divider, Text, Button } from 'react-native-paper';
 
 export default class Help extends Component {
   constructor(props) {
@@ -25,13 +25,20 @@ export default class Help extends Component {
     return (
       <View>
         <View style={{ flexDirection: 'row' }}>
-          <Text h4>{ item.name }</Text>
+        <Text style={{fontSize: 24}}>{item.name}</Text>
           <View style={{ flex:1, flexDirection: 'row', justifyContent:'flex-end' }}>
             <Switch value={1}/>
           </View>
         </View>
+        <Divider style={{ marginVertical: 10 }}/>
         <Text>Change this option to modify the color scheme for the application. The two options is light mode or dark mode. </Text>
-        <Button containerStyle={{ paddingVertical:10 }} title="Back" onPress={ toggleModal }/>
+        <Button
+            style={{ width: "100%", marginVertical: 20, padding: 1 }}
+            onPress={toggleModal}
+            mode="contained"
+          >
+            Close
+        </Button>
       </View>
     );
   };

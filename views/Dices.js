@@ -10,7 +10,7 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { GLView } from 'expo-gl';
 import { Renderer } from "expo-three";
-import { Button } from 'react-native-elements';
+import { Button } from 'react-native-paper';
 
 import dicesPositions from '../data/dicesPositions';
 import fontJSON from '../assets/fonts/gentilis_bold.typeface';
@@ -185,10 +185,12 @@ export default class Dices extends React.Component {
         />
         <View style={{ alignItems: "center", backgroundColor: "#fff" }}>
           <Button
-            containerStyle={{ width: "50%", marginVertical: 20, padding: 1 }}
+            style={{ width: "50%", marginVertical: 20, padding: 1 }}
             onPress={this.onRoll}
-            title="Roll Dices!"
-          />
+            mode="contained"
+          >
+            Roll Dices!
+          </Button>
         </View>
       </View>
     );
