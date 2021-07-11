@@ -8,13 +8,12 @@
 *===========================================================================*/
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import { View as GraphicsView } from 'expo-graphics';
-import ExpoTHREE, { THREE } from 'expo-three';
+import { GLView } from 'expo-gl';
+import { Renderer } from "expo-three";
 import { Button } from 'react-native-elements';
 
 import dicesPositions from '../data/dicesPositions';
 import fontJSON from '../assets/fonts/gentilis_bold.typeface';
-
 
 function addLabel( text, location, group, rotY = null, rotX = null, rotZ = null ) {
   let loader = new THREE.FontLoader();
@@ -28,6 +27,7 @@ function addLabel( text, location, group, rotY = null, rotX = null, rotZ = null 
 
   //Center text regardless the length
   geometry.center();
+
   let material = new THREE.MeshBasicMaterial( { color: 0xA7F432 } );
   let mesh = new THREE.Mesh( geometry, material );
   mesh.position.copy( location );
@@ -65,22 +65,55 @@ export default class Dices extends React.Component {
     THREE.suppressExpoWarnings(true);
   };
 
-  onContextCreate = async ({ gl, width, height, scale: pixelRatio, }) => {
-    const { chosenDicesPositions } = this.state;
-    
-    this.renderer = new ExpoTHREE.Renderer({ gl, pixelRatio, width, height });
-    this.renderer.setClearColor(0xffffff);
+  diceAnimation = () => {
+    const { isDicesActive, amountOfDices, objects } = this.state;
+      if(isDicesActive) {
+        const min = 5;
+        const max = 15;
+        const rand = (min + Math.random() * (max - min)) / 100;
 
-    this.scene = new THREE.Scene();
-
-    this.camera = new THREE.PerspectiveCamera(30, width / height, 0.1, 1000);
-    this.camera.position.z = 4.5 + (chosenDicesPositions[0].camera / 1.5); //4.5
-
-    this.createShapes();
-    this.createLighting();
+        for(let i = 0; i < amountOfDices; i++) {
+            if (Math.log2(i) % 1 === 0){ // Get the power of two 
+                objects[i].rotation.x += rand;
+                objects[i].rotation.y += rand;
+            } else {
+                objects[i].rotation.x -= rand;
+                objects[i].rotation.y -= rand;
+            }
+        }
+    }
   };
 
-  createShapes = () => {
+  onContextCreate = async (gl) => {
+    const { chosenDicesPositions } = this.state;
+
+    // 1. Scene
+    var scene = new THREE.Scene();
+    // 2. Camera
+    const camera = new THREE.PerspectiveCamera(30, gl.drawingBufferWidth / gl.drawingBufferHeight, 0.1, 1000);
+    camera.position.z = 4.5 + (chosenDicesPositions[0].camera / 1.5); //4.5
+    // 3. Renderer
+    const renderer = new Renderer({ gl });
+    renderer.setClearColor(0xffffff);
+    renderer.setSize(gl.drawingBufferWidth, gl.drawingBufferHeight);
+    // 4. Shapes
+    this.createShapes(scene);
+    // 4. Lighting
+    this.createLighting(scene);
+
+    const animate = () => {
+      requestAnimationFrame(animate);
+      
+      this.diceAnimation();
+
+      renderer.render(scene, camera);
+      gl.endFrameEXP();
+    };
+    
+    animate();
+  };
+
+  createShapes = (scene) => {
     const { objects, amountOfDices, chosenDicesPositions } = this.state;
 
     const geometry = new THREE.BoxGeometry(1, 1, 1);
@@ -105,33 +138,16 @@ export default class Dices extends React.Component {
 
       //objects[i].rotateX(THREE.Math.degToRad( 270 ));
 
-      this.scene.add(objects[i]);
+      scene.add(objects[i]);
     }
   };
 
-  createLighting = () => {
+  createLighting = (scene) => {
     const light = new THREE.DirectionalLight(0xffffff, 0.6);
     light.position.set(0, 0, 2);
 
-    this.scene.add(new THREE.AmbientLight(0x404040));
-    this.scene.add(light);
-  };    
-
-  onRender = delta => {
-    const { isDicesActive, amountOfDices, objects } = this.state;
-    
-    if(isDicesActive) {
-        for(let i = 0; i < amountOfDices; i++) {
-            if (Math.log2(i) % 1 === 0){ // Get the power of two 
-                objects[i].rotation.x += (Math.floor(Math.random() * 7) + 5) * delta;
-                objects[i].rotation.y += (Math.floor(Math.random() * 4) + 2) * delta;
-            } else {
-                objects[i].rotation.x -= (Math.floor(Math.random() * 7) + 5) * delta;
-                objects[i].rotation.y -= (Math.floor(Math.random() * 4) + 2) * delta;
-            }
-        }
-    }
-    this.renderer.render(this.scene, this.camera);
+    scene.add(new THREE.AmbientLight(0x404040));
+    scene.add(light);
   };
 
   onRoll = () => {
@@ -163,9 +179,8 @@ export default class Dices extends React.Component {
   render() {
     return (
       <View style={{ flex: 1 }}>
-        <GraphicsView
+        <GLView
           onContextCreate={this.onContextCreate}
-          onRender={this.onRender}
           style={{ alignItems: 'stretch', flex:1 }}
         />
         <View style={{ alignItems: "center", backgroundColor: "#fff" }}>
